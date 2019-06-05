@@ -1,0 +1,22 @@
+{
+    "name": "qqes/kafka",
+    "description": Qqes Kafka Message Queue,",
+    "keywords": ["qqes", "kafka"],
+    "type": "library",
+    "homepage": "http://www.7724.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "QQES_ZHW",
+            "homepage": "http://www.7724.com"
+        }
+    ],
+  "require": {
+        "php": ">=5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qqes\\Kafka": "src/"
+        }
+    }
+}
