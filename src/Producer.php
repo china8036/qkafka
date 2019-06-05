@@ -46,7 +46,22 @@ class Producer extends Kafka {
      * @return type
      */
     public function queue($msg, $partition = 0){
+        if(is_array($msg)){
+            $msg = serialize($msg);
+        }
        return  $this->pro_topic->produce($partition, 0, $msg);
+    }
+    
+    /**
+     * 
+     * @param string $class
+     * @param string $method
+     * @param mix $args
+     * @param inter $partition
+     * @return type
+     */
+    public function queueCall($class, $method, $args, $partition = 0){
+        return $this->queue([Kafka::CLASS_KEY => $class, Kafka::METHOD_KEY => $method, Kafka::ARGS_KEY => $args], $partition);
     }
 
 }

@@ -13,10 +13,10 @@ namespace Qqes\Kafka;
  *
  * @author wang
  */
+use Message;
 use RdKafka\Conf;
 use RdKafka\Consumer;
 use RdKafka\TopicConf;
-
 class Consumer extends Kafka {
 
     /**
@@ -24,9 +24,17 @@ class Consumer extends Kafka {
      * @var RdKafka\ConsumerTopic 
      */
     protected $con_topic;
+    
+    
+    /**
+     * partition
+     * @var inter
+     */
+    protected $partition;
 
-    public function __construct($brokers, $topic_nam) {
+    public function __construct($brokers, $topic_nam, $partition) {
         parent::__construct();
+        $this->partition = $partition;
         $conf = new Conf();
 
 // Set the group id. This is required when storing offsets on the broker
@@ -41,9 +49,9 @@ class Consumer extends Kafka {
 
         $topic = $rk->newTopic($topic_nam, $topicConf);
 
-
+            
         // Start consuming partition 0
-        $this->con_topic = $topic->consumeStart($partition, RD_KAFKA_OFFSET_STORED);
+        $this->con_topic = $topic->consumeStart($this->partition, RD_KAFKA_OFFSET_STORED);
     }
 
     /**
@@ -52,22 +60,17 @@ class Consumer extends Kafka {
      * @param type $timeout
      * @throws \Exception
      */
-    public function getMsg($partition = 0, $timeout = 3000) {
-        $message = $this->con_topic->consume($partition, $timeout);
+    public function getMsg($timeout = 3000) {
+        $message = $this->con_topic->consume($this->partition, $timeout);
         switch ($message->err) {
             case RD_KAFKA_RESP_ERR_NO_ERROR:
-                echo time() . ":receive\r\n";
-                var_dump($message);
-                $this->con_topic->offsetStore($message->partition, $message->offset); //
-                //$topic
+                $this->con_topic->offsetStore($message->partition, $message->offset); 
                 break;
-            case RD_KAFKA_RESP_ERR__PARTITION_EOF:
-            case RD_KAFKA_RESP_ERR__TIMED_OUT:
-                echo $message->errstr() . PHP_EOL;
-                break;
+//            case RD_KAFKA_RESP_ERR__PARTITION_EOF:
+//            case RD_KAFKA_RESP_ERR__TIMED_OUT:
+//                throw new Exception($message->errstr(), $message->err);
             default:
-                throw new \Exception($message->errstr(), $message->err);
-                break;
+                throw new Exception($message->errstr(), $message->err);
         }
     }
 
