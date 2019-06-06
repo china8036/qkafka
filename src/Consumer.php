@@ -14,8 +14,9 @@ namespace Qqes\Kafka;
  * @author wang
  */
 use RdKafka\Conf;
-use RdKafka\Consumer as Kconsumer;
 use RdKafka\TopicConf;
+use RdKafka\Message as Kmessage;
+use RdKafka\Consumer as Kconsumer;
 class Consumer extends Kafka {
 
     /**
@@ -55,6 +56,22 @@ class Consumer extends Kafka {
 
     /**
      * 
+     * @param type $timeout
+     * @return \Qqes\Kafka\Message
+     */
+   public function getCallMsg($timeout = 3000){
+       while(true){
+           $message = $this->getMsg($timeout);
+           if($message === null){
+               continue;
+           }
+           return new Message($message);
+       }
+   }
+    
+   
+    /**
+     * 
      * @param type $partition
      * @param type $timeout
      * @throws \Exception
@@ -63,10 +80,7 @@ class Consumer extends Kafka {
         $message = $this->con_topic->consume($this->partition, $timeout);
         switch ($message->err) {
             case RD_KAFKA_RESP_ERR_NO_ERROR:
-                if($message == null){
-                    return null;
-                }
-                return new Message($message);
+                return $message;
 //            case RD_KAFKA_RESP_ERR__PARTITION_EOF:
 //            case RD_KAFKA_RESP_ERR__TIMED_OUT:
 //                throw new Exception($message->errstr(), $message->err);

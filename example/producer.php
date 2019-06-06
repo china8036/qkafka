@@ -17,7 +17,7 @@ $producer = new Qqes\Kafka\Producer('192.168.1.200', 'test');
 
 $i = 0;
 while(true){
-    $producer->queue('test:' . time(), $i++);
+    //$producer->queue('test:' . time(), $i++);
     $producer->queueCall('Qqes\Test', 'call', ['test' . time()]);
     sleep(1);
 }

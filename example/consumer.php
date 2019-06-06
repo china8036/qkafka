@@ -14,11 +14,14 @@ include '../src/Producer.php';
 
 $cousunmer = new Qqes\Kafka\Consumer('192.168.1.200', 'test', 0);
 while (true) {
-    $msg = $cousunmer->getMsg();
-    if ($msg == null) {
-        continue;
+    try{
+        $msg = $cousunmer->getCallMsg();
+        echo $msg->getClass() . "\r\n";
+        echo $msg->getMethod() . "\r\n";
+        var_dump($msg->getArgs());
+    }catch(\Exception $e){
+        echo $e->getMessage() . "\r\n";
     }
-    var_dump($msg);
     //something to do
     
     //all done
