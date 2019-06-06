@@ -13,14 +13,20 @@ namespace Qqes\Kafka;
  *
  * @author wang
  */
-use RdKafka\Message;
-class Message extends Message {
+use RdKafka\Message as Kmessage;
 
-    public $err;
-    public $topic_name;
+class Message {
+
     public $partition;
     public $payload;
     public $key;
     public $offset;
+
+    function __construct(Kmessage $message) {
+        $this->partition = $message->partition;
+        $this->payload = $message->payload;
+        $this->key = $message->key;
+        $this->offset = $message->offset;
+    }
 
 }

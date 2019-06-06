@@ -13,7 +13,6 @@ namespace Qqes\Kafka;
  *
  * @author wang
  */
-use Message;
 use RdKafka\Conf;
 use RdKafka\Consumer;
 use RdKafka\TopicConf;
@@ -64,8 +63,7 @@ class Consumer extends Kafka {
         $message = $this->con_topic->consume($this->partition, $timeout);
         switch ($message->err) {
             case RD_KAFKA_RESP_ERR_NO_ERROR:
-                $this->con_topic->offsetStore($message->partition, $message->offset); 
-                break;
+                return new Message($message);
 //            case RD_KAFKA_RESP_ERR__PARTITION_EOF:
 //            case RD_KAFKA_RESP_ERR__TIMED_OUT:
 //                throw new Exception($message->errstr(), $message->err);
@@ -74,4 +72,11 @@ class Consumer extends Kafka {
         }
     }
 
+    /**
+     * 
+     * @param \Qqes\Kafka\Message $message
+     */
+    public function done(Message $message){
+         $this->con_topic->offsetStore($message->partition, $message->offset); 
+    }
 }

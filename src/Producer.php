@@ -25,6 +25,11 @@ class Producer extends Kafka {
     protected $pro_topic;
     
     
+    /**
+     * 
+     * @param type $brokers
+     * @param type $topic_name
+     */
     public function __construct($brokers, $topic_name) {
         parent::__construct();
         $conf = new Conf();
@@ -45,11 +50,11 @@ class Producer extends Kafka {
      * @param type $msg
      * @return type
      */
-    public function queue($msg, $partition = 0){
+    public function queue($msg, $key = null, $partition = 0){
         if(is_array($msg)){
             $msg = serialize($msg);
         }
-       return  $this->pro_topic->produce($partition, 0, $msg);
+       return  $this->pro_topic->produce($partition, 0, $msg, $key);
     }
     
     /**
@@ -60,8 +65,8 @@ class Producer extends Kafka {
      * @param inter $partition
      * @return type
      */
-    public function queueCall($class, $method, $args, $partition = 0){
-        return $this->queue([Kafka::CLASS_KEY => $class, Kafka::METHOD_KEY => $method, Kafka::ARGS_KEY => $args], $partition);
+    public function queueCall($class, $method, $args, $key = null, $partition = 0){
+        return $this->queue([Kafka::CLASS_KEY => $class, Kafka::METHOD_KEY => $method, Kafka::ARGS_KEY => $args], $key, $partition);
     }
 
 }
