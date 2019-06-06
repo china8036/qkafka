@@ -15,7 +15,6 @@ namespace Qqes\Kafka;
  */
 use RdKafka\Conf;
 use RdKafka\TopicConf;
-use RdKafka\Message as Kmessage;
 use RdKafka\Consumer as Kconsumer;
 class Consumer extends Kafka {
 
