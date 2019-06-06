@@ -12,10 +12,10 @@ include '../src/Message.php';
 include '../src/Consumer.php';
 include '../src/Producer.php';
 
-$cousunmer = new Qqes\Kafka\Consumer('192.168.1.200', 'test', 0);
+$consumer = new Qqes\Kafka\Consumer('192.168.1.200', 'test', 0);
 while (true) {
     try{
-        $msg = $cousunmer->getCallMsg();
+        $msg = $consumer->getCallMsg();
         echo $msg->getClass() . "\r\n";
         echo $msg->getMethod() . "\r\n";
         var_dump($msg->getArgs());
@@ -25,5 +25,5 @@ while (true) {
     //something to do
     
     //all done
-    $cousunmer->done($msg);
+    $consumer->done($msg);
 }
