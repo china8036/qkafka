@@ -22,7 +22,7 @@ class Kafka {
     //put your code here
 
     public function __construct() {
-        if (class_exists('RdKafka\Conf')) {
+        if (!class_exists('\RdKafka\Conf')) {
             throw new Exception('Can not found rdkafka php extension, Please visit url https://github.com/arnaud-lb/php-rdkafka to install it');
         }
     }

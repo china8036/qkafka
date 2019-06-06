@@ -8,12 +8,12 @@
 
 namespace Qqes\Kafka;
 
-use Exception;
+use Exception as Bexception;
 /**
  * Description of Exception
  *
  * @author wang
  */
-class Exception extends Exception{
+class Exception extends Bexception{
     //put your code here
 }

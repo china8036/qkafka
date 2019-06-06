@@ -14,7 +14,7 @@ namespace Qqes\Kafka;
  * @author wang
  */
 use RdKafka\Conf;
-use RdKafka\Producer;
+use RdKafka\Producer as Kproducer;
 use RdKafka\TopicConf;
 class Producer extends Kafka {
 
@@ -33,7 +33,7 @@ class Producer extends Kafka {
     public function __construct($brokers, $topic_name) {
         parent::__construct();
         $conf = new Conf();
-        $rk = new Producer($conf);
+        $rk = new Kproducer($conf);
         $rk->setLogLevel(LOG_DEBUG);
         $rk->addBrokers($brokers);
 
