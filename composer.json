@@ -1,6 +1,6 @@
 {
     "name": "qqes/kafka",
-    "description": Qqes Kafka Message Queue,",
+    "description": "Qqes Kafka Message Queue",
     "keywords": ["qqes", "kafka"],
     "type": "library",
     "homepage": "http://www.7724.com",
