@@ -15,4 +15,9 @@ include '../src/Producer.php';
 
 $producer = new Qqes\Kafka\Producer('192.168.1.200', 'test');
 
-$producer->queue('test:' . time());
+$i = 0;
+while(true){
+    $producer->queue('test:' . time(), $i++);
+    $producer->queueCall('Qqes\Test', 'call', ['test' . time()]);
+    sleep(1);
+}
